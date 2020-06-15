@@ -59,7 +59,7 @@ class TestSchedule : StringSpec({
         }
     }
     // test course with small number of sections
-    "should load schedule/2020/fall/YDSH_101.xml properly" {
+    "should load schedule/2020/fall/YDSH/101.xml properly" {
         "schedule_2020_fall_YDSH_101.xml".load().fromXml<SubjectCourse>().also { subject ->
             subject.label shouldBe "Beginning Yiddish I"
             subject.creditHours shouldBe "4 hours."
@@ -68,7 +68,7 @@ class TestSchedule : StringSpec({
         }
     }
     // test section
-    "should load schedule_2020_fall_ZULU_71955.xml properly" {
+    "should load schedule/2020/fall/ZULU/71955.xml properly" {
         "schedule_2020_fall_ZULU_71955.xml".load().fromXml<Section>().also { section ->
             section.sectionNumber shouldBe "A"
             section.startDate shouldBe "2020-08-24Z"
@@ -76,6 +76,15 @@ class TestSchedule : StringSpec({
             section.meetings[0].type shouldBe "Lecture-Discussion"
             section.meetings[0].end shouldBe null
             section.meetings[0].instructors[0].name shouldBe "Gathogo, M"
+        }
+    }
+    // test section with complete start and end times
+    "should load schedule/2020/fall/CS/125/35876.xml properly" {
+        "schedule_2020_fall_CS_125_35876.xml".load().fromXml<Section>().also { section ->
+            section.meetings[0].type shouldBe "Lecture"
+            section.meetings[0].start shouldBe "11:00 AM"
+            section.meetings[0].end shouldBe "11:50 AM"
+            section.meetings[0].roomNumber shouldBe "AUD"
         }
     }
 })

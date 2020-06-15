@@ -95,7 +95,12 @@ data class Section (
     data class Meeting(
         val type: String,
         val start: String,
+        // nullable attributes
         val end: String?,
+        val daysOfTheWeek: String?,
+        val roomNumber: String?,
+        val buildingName: String?,
+
         val instructors: List<Instructor>
     ) {
         data class Instructor(@JacksonXmlProperty(localName = "innerText") val name: String)
