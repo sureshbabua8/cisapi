@@ -31,7 +31,7 @@ data class ScheduleYear(val label: String, val terms: List<Term>) {
     )
 }
 
-data class ScheduleYearSemester(val parents: Parents, val label: String, val subjects: List<Subject>) {
+data class Term(val parents: Parents, val label: String, val subjects: List<Subject>) {
     data class Parents(val calendarYear: CalendarYears.CalendarYear)
     data class Subject(
         val id: String,
@@ -40,7 +40,7 @@ data class ScheduleYearSemester(val parents: Parents, val label: String, val sub
     )
 }
 
-data class ScheduleYearSemesterDepartment(
+data class Department(
     val parents: Parents,
     val label: String,
     val collegeCode: String,
@@ -62,5 +62,9 @@ data class ScheduleYearSemesterDepartment(
         @JacksonXmlProperty(localName = "innerText") val name: String
     )
 }
+
+// data class SubjectCourse(
+//
+// )
 
 internal inline fun <reified T> String.fromXml(): T = xmlMapper.readValue(this, T::class.java)
