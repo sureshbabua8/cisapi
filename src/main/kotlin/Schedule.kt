@@ -77,14 +77,29 @@ data class SubjectCourse (
 
 data class Section (
     val parents: Parents,
-    @JacksonXmlProperty(localName = "innerText") val sectionNumber: String,
-    @JacksonXmlProperty(localName = "innerText") val partOfTerm: String,
-    @JacksonXmlProperty(localName = "innerText") val enrollmentStatus: String,
-    @JacksonXmlProperty(localName = "innerText") val startDate: String,
-    @JacksonXmlProperty(localName = "innerText") val endDate: String
+    val sectionNumber: String,
+    val partOfTerm: String,
+    val enrollmentStatus: String,
+    val startDate: String,
+    val endDate: String,
+    val meetings: List<Meeting>
 ) {
     data class Course(val id: String, val href: URI, @JacksonXmlProperty(localName = "innerText") val course: String)
-    data class Parents(val calendarYear: CalendarYears.CalendarYear, val term: ScheduleYear.Term, val subject: SubjectCourse.Subject, val course: Course)
+    data class Parents(
+        val calendarYear: CalendarYears.CalendarYear,
+        val term: ScheduleYear.Term,
+        val subject: SubjectCourse.Subject,
+        val course: Course
+    )
+
+    data class Meeting(
+        val type: String,
+        val start: String,
+        val end: String?,
+        val instructors: List<Instructor>
+    ) {
+        data class Instructor(@JacksonXmlProperty(localName = "innerText") val name: String)
+    }
 }
 
 internal inline fun <reified T> String.fromXml(): T = xmlMapper.readValue(this, T::class.java)

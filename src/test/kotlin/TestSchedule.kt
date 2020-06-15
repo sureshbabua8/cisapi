@@ -2,6 +2,7 @@ import edu.illinois.cs.cs125.cisapi.CalendarYears
 import edu.illinois.cs.cs125.cisapi.ScheduleYear
 import edu.illinois.cs.cs125.cisapi.Term
 import edu.illinois.cs.cs125.cisapi.Department
+import edu.illinois.cs.cs125.cisapi.Section
 import edu.illinois.cs.cs125.cisapi.SubjectCourse
 import edu.illinois.cs.cs125.cisapi.fromXml
 import io.kotlintest.matchers.collections.shouldContainInOrder
@@ -57,13 +58,24 @@ class TestSchedule : StringSpec({
             department.parents.term.semester shouldBe "Fall 2020"
         }
     }
-    // test small number of sections
+    // test course with small number of sections
     "should load schedule/2020/fall/YDSH_101.xml properly" {
         "schedule_2020_fall_YDSH_101.xml".load().fromXml<SubjectCourse>().also { subject ->
             subject.label shouldBe "Beginning Yiddish I"
             subject.creditHours shouldBe "4 hours."
             // test parents hierarchy
             subject.parents.subject.subject shouldBe "Yiddish"
+        }
+    }
+    // test section
+    "should load schedule_2020_fall_ZULU_71955.xml properly" {
+        "schedule_2020_fall_ZULU_71955.xml".load().fromXml<Section>().also { section ->
+            section.sectionNumber shouldBe "A"
+            section.startDate shouldBe "2020-08-24Z"
+            // test section meeting
+            section.meetings[0].type shouldBe "Lecture-Discussion"
+            section.meetings[0].end shouldBe null
+            section.meetings[0].instructors[0].name shouldBe "Gathogo, M"
         }
     }
 })
