@@ -2,6 +2,7 @@ import edu.illinois.cs.cs125.cisapi.CalendarYears
 import edu.illinois.cs.cs125.cisapi.ScheduleYear
 import edu.illinois.cs.cs125.cisapi.Term
 import edu.illinois.cs.cs125.cisapi.Department
+import edu.illinois.cs.cs125.cisapi.SubjectCourse
 import edu.illinois.cs.cs125.cisapi.fromXml
 import io.kotlintest.matchers.collections.shouldContainInOrder
 import io.kotlintest.matchers.collections.shouldHaveSize
@@ -56,17 +57,13 @@ class TestSchedule : StringSpec({
             department.parents.term.semester shouldBe "Fall 2020"
         }
     }
-    // // test small number of sections
-    // "should load schedule/2020/fall/YDSH_101.xml properly" {
-    //     "schedule_2020_fall_YDSH_101.xml".load().fromXml<Department>().also { department ->
-    //
-    //         department.courses.find { it.id == "202" }?.name shouldBe "Elementary Zulu II"
-    //     }
-    // }
-    // "should load schedule/2020/fall/ZULU.xml properly" {
-    //     "schedule_2020_fall_ZULU.xml".load().fromXml<Department>().also { department ->
-    //         department.contactName shouldBe "James Yoon"
-    //         department.courses.find { it.id == "202" }?.name shouldBe "Elementary Zulu II"
-    //     }
-    // }
+    // test small number of sections
+    "should load schedule/2020/fall/YDSH_101.xml properly" {
+        "schedule_2020_fall_YDSH_101.xml".load().fromXml<SubjectCourse>().also { subject ->
+            subject.label shouldBe "Beginning Yiddish I"
+            subject.creditHours shouldBe "4 hours."
+            // test parents hierarchy
+            subject.parents.subject.subject shouldBe "Yiddish"
+        }
+    }
 })

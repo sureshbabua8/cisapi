@@ -63,8 +63,28 @@ data class Department(
     )
 }
 
-// data class SubjectCourse(
-//
-// )
+data class SubjectCourse (
+    val parents: Parents,
+    val label: String,
+    val description: String,
+    val creditHours: String,
+    val sections: List<Section>
+) {
+    data class Subject(val id: String, val href: String, @JacksonXmlProperty(localName = "innerText") val subject: String)
+    data class Parents(val calendarYear: CalendarYears.CalendarYear, val term: ScheduleYear.Term, val subject: Subject)
+    data class Section(val id: String, val href: URI, @JacksonXmlProperty(localName = "innerText") val name: String)
+}
+
+data class Section (
+    val parents: Parents,
+    @JacksonXmlProperty(localName = "innerText") val sectionNumber: String,
+    @JacksonXmlProperty(localName = "innerText") val partOfTerm: String,
+    @JacksonXmlProperty(localName = "innerText") val enrollmentStatus: String,
+    @JacksonXmlProperty(localName = "innerText") val startDate: String,
+    @JacksonXmlProperty(localName = "innerText") val endDate: String
+) {
+    data class Course(val id: String, val href: URI, @JacksonXmlProperty(localName = "innerText") val course: String)
+    data class Parents(val calendarYear: CalendarYears.CalendarYear, val term: ScheduleYear.Term, val subject: SubjectCourse.Subject, val course: Course)
+}
 
 internal inline fun <reified T> String.fromXml(): T = xmlMapper.readValue(this, T::class.java)
